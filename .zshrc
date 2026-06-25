@@ -215,6 +215,9 @@ opencode-tmux-session() {
   esac
 }
 
+# Dotfiles bare git repo
+alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles --work-tree=$HOME'
+
 # Aliases
 alias oco='opencode --port'
 alias occ='opencode --port --continue'
