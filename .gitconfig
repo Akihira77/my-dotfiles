@@ -1,0 +1,16 @@
+[user]
+    name = Akihira
+    email = tik.dikawahyu123@gmail.com
+
+[credential]
+    credentialStore = gpg
+    helper = store
+
+[core]
+    editor = nvim
+    autocrlf = false
+    safecrlf = true
+    pager = less -FRSX        # pager lebih baik
+
+[color]
+    ui = auto
