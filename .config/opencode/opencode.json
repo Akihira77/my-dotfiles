@@ -1,0 +1,101 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "instructions": [
+    "/home/akihira17/.config/opencode/AGENTS.caveman.md"
+  ],
+  "permission": {
+    "*": "ask",
+    "bash": "ask",
+    "skill": {
+      "caveman": "allow",
+      "caveman-commit": "allow",
+      "caveman-review": "allow",
+      "caveman-help": "allow",
+      "caveman-compress": "allow"
+    },
+    "webfetch": "allow",
+    "glob": "allow",
+    "lsp": "allow",
+    "grep": "allow",
+    "websearch": "allow"
+  },
+  "formatter": true,
+  "lsp": true,
+  "compaction": {
+    "auto": true,
+    "prune": true,
+    "tail_turns": 3,
+    "reserved": 10000
+  },
+  "plugin": [
+    "opencode-type-inject",
+    "opencode-shell-strategy",
+    "opencode-dynamic-context-pruning",
+    "opencode-quota",
+    "opencode-direnv",
+    "opencode-snippets",
+    "oh-my-opencode-slim"
+  ],
+  "command": {
+    "test": {
+      "template": "Run the test suite. Detect if Go (go test ./...) or TypeScript (npm/pnpm/yarn/bun test) and run accordingly. Show failures clearly.",
+      "description": "Run tests (auto-detect Go/TS)",
+      "subtask": true
+    },
+    "build": {
+      "template": "Build the project. Detect if Go (go build ./...) or TypeScript (npm/pnpm/yarn/bun run build) and run accordingly. Report any errors.",
+      "description": "Build project",
+      "subtask": true
+    },
+    "lint": {
+      "template": "Run the linter. For Go use 'golangci-lint run' or 'go vet ./...'. For TypeScript use the project's configured linter (eslint, biome, etc). Report all issues.",
+      "description": "Run linter",
+      "subtask": true
+    },
+    "migrate": {
+      "template": "Run database migrations. Check for common migration tools in order: golang-migrate, goose, sqlc, prisma, typeorm, drizzle, sequelize. If found, run the appropriate migrate command. If uncertain, ask which tool to use.",
+      "description": "Run DB migrations",
+      "subtask": true
+    },
+    "cover": {
+      "template": "Run tests with coverage. For Go use 'go test -coverprofile=coverage.out ./... && go tool cover -func coverage.out'. For TypeScript use the project's coverage command (vitest --coverage, jest --coverage, etc). Report coverage percentages per package.",
+      "description": "Test with coverage",
+      "subtask": true
+    }
+  },
+  "agent": {
+    "go": {
+      "description": "Go backend expert — idioms, concurrency, stdlib, project layout",
+      "mode": "subagent",
+      "prompt": "You are a senior Go backend engineer. Follow Go idioms, use proper error wrapping, leverage stdlib before third-party libs. Prefer explicit interfaces, table-driven tests, and clean package boundaries. Use gofmt style. Structure projects per standard cmd/internal/pkg layout.",
+      "color": "#00ADD8"
+    },
+    "ts": {
+      "description": "TypeScript backend expert — strict types, async patterns, Node/Deno/Bun",
+      "mode": "subagent",
+      "prompt": "You are a senior TypeScript backend engineer. Use strict typing, prefer interfaces over types for public APIs, handle async errors properly. Use modern ES2022+ patterns. Follow project's existing framework conventions (Express, NestJS, Hono, Elysia, etc). Structure imports clearly.",
+      "color": "#3178C6"
+    },
+    "build": {
+      "permission": {
+        "bash": "allow"
+      }
+    }
+  },
+  "experimental": {
+    "batch_tool": true
+  },
+  "provider": {
+    "opencode-go": {
+      "options": {
+        "timeout": 600000,
+        "chunkTimeout": 30000,
+        "setCacheKey": true
+      }
+    }
+  },
+  "tool_output": {
+    "max_lines": 3000,
+    "max_bytes": 76800
+  }
+}
